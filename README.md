@@ -18,3 +18,9 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+## API
+
+```cmd
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" http://localhost:4000/api/users
+```
