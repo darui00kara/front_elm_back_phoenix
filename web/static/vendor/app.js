@@ -9077,12 +9077,16 @@ var _user$project$App$update = F2(
 			return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _user$project$App$UserData = F3(
+var _user$project$App$User = F3(
 	function (a, b, c) {
 		return {name: a, email: b, id: c};
 	});
-var _user$project$App$userDecoder = A4(_elm_lang$core$Json_Decode$map3, _user$project$App$UserData, _user$project$App$nameDecoder, _user$project$App$emailDecoder, _user$project$App$idDecoder);
-var _user$project$App$getUser = A2(_elm_lang$http$Http$get, _user$project$App$getUserUrl, _user$project$App$userDecoder);
+var _user$project$App$userDecoder = A4(_elm_lang$core$Json_Decode$map3, _user$project$App$User, _user$project$App$nameDecoder, _user$project$App$emailDecoder, _user$project$App$idDecoder);
+var _user$project$App$userDataDecoder = A2(_elm_lang$core$Json_Decode$field, 'data', _user$project$App$userDecoder);
+var _user$project$App$getUser = A2(_elm_lang$http$Http$get, _user$project$App$getUserUrl, _user$project$App$userDataDecoder);
+var _user$project$App$UserData = function (a) {
+	return {data: a};
+};
 var _user$project$App$LoadUserData = function (a) {
 	return {ctor: 'LoadUserData', _0: a};
 };

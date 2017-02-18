@@ -6,14 +6,17 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode
 
-type alias UserData =
+type alias User =
   { name  : String
   , email : String
   , id    : Int
   }
 
+type alias UserData =
+  { data : User }
+
 type Msg =
-  LoadUserData ( Result Http.Error UserData )
+  LoadUserData ( Result Http.Error User )
 
 -- main
 
@@ -25,13 +28,13 @@ main =
     , subscriptions = subscriptions
     }
 
-init : (UserData, Cmd Msg)
+init : (User, Cmd Msg)
 init =
   ( { name = "none", email = "none", id = 0 }
   , sendRequest
   )
 
-update : Msg -> UserData -> ( UserData, Cmd Msg )
+update : Msg -> User -> ( User, Cmd Msg )
 update msg user =
   case msg of
     LoadUserData ( Ok newUser ) ->
@@ -39,14 +42,14 @@ update msg user =
     LoadUserData ( Err _ ) ->
       ( user, Cmd.none )
 
-view : UserData -> Html Msg
+view : User -> Html Msg
 view user =
   div []
     [ h2 [] [ text user.name ]
     , h2 [] [ text user.email ]
     ]
 
-subscriptions : UserData -> Sub Msg
+subscriptions : User -> Sub Msg
 subscriptions user =
   Sub.none
 
@@ -62,7 +65,10 @@ emailDecoder =
   ( Decode.field "email" Decode.string )
 
 userDecoder =
-  Decode.map3 UserData nameDecoder emailDecoder idDecoder
+  Decode.map3 User nameDecoder emailDecoder idDecoder
+
+userDataDecoder =
+  ( Decode.field "data" userDecoder )
 
 -- request 
 
@@ -70,9 +76,9 @@ getUserUrl : String
 getUserUrl =
   "http://localhost:4000/api/users/1"
 
-getUser : Http.Request UserData
+getUser : Http.Request User
 getUser =
-  Http.get getUserUrl userDecoder
+  Http.get getUserUrl userDataDecoder
 
 sendRequest : Cmd Msg
 sendRequest =
