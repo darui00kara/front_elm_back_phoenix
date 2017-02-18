@@ -36,6 +36,8 @@ jsonBody : Value -> Body
 send : (Result Error a -> msg) -> Request a -> Cmd msg
 ```
 
+## Memo
+
 ```elm
 > import Json.Decode exposing (..)
 
@@ -63,4 +65,15 @@ Request { method = "GET", headers = [], url = "http://localhost:4000/api/users/1
 > send LoadUserData getRequest
 { type = "leaf", home = "Task", value = Perform <task> }
     : Platform.Cmd.Cmd Repl.Msg
+
+## Phoenixのレスポンスに対応するには下記のようになる
+## Appモジュールに関しては、elmソースを参照のこと
+> import App
+> import Json.Decode as Decode
+> json = "{\"data\":{\"name\":\"hogehoge\",\"id\":1,\"email\":\"hoge@test.com\"}}"
+"{\"data\":{\"name\":\"hogehoge\",\"id\":1,\"email\":\"hoge@test.com\"}}"
+    : String
+> Decode.decodeString App.userDataDecoder json
+Ok { name = "hogehoge", email = "hoge@test.com", id = 1 }
+    : Result.Result String App.User
 ```
