@@ -17,6 +17,7 @@ type alias UserData =
 
 type Msg =
   LoadUserData ( Result Http.Error User )
+  | Signup
 
 -- main
 
@@ -41,12 +42,22 @@ update msg user =
       ( newUser, Cmd.none )
     LoadUserData ( Err _ ) ->
       ( user, Cmd.none )
+    Signup ->
+      ( user, Cmd.none )
 
 view : User -> Html Msg
 view user =
   div []
     [ h2 [] [ text user.name ]
     , h2 [] [ text user.email ]
+    , div []
+        [ h2 [] [ text "Signup Form" ]
+        , label [ for "name-field" ] [ text "Name:" ]
+        , input [ id "name-field", type_ "text", placeholder "Name", value user.name ] []
+        , label [ for "email-field" ] [ text "Email:" ]
+        , input [ id "email-field", type_ "text", placeholder "Email", value user.email ] []
+        , button [ onClick Signup ] [ text "signup" ]
+        ]
     ]
 
 subscriptions : User -> Sub Msg

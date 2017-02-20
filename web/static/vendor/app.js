@@ -9040,6 +9040,30 @@ var _user$project$App$idDecoder = A2(_elm_lang$core$Json_Decode$field, 'id', _el
 var _user$project$App$subscriptions = function (user) {
 	return _elm_lang$core$Platform_Sub$none;
 };
+var _user$project$App$update = F2(
+	function (msg, user) {
+		var _p0 = msg;
+		if (_p0.ctor === 'LoadUserData') {
+			if (_p0._0.ctor === 'Ok') {
+				return {ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none};
+			} else {
+				return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
+			}
+		} else {
+			return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _user$project$App$User = F3(
+	function (a, b, c) {
+		return {name: a, email: b, id: c};
+	});
+var _user$project$App$userDecoder = A4(_elm_lang$core$Json_Decode$map3, _user$project$App$User, _user$project$App$nameDecoder, _user$project$App$emailDecoder, _user$project$App$idDecoder);
+var _user$project$App$userDataDecoder = A2(_elm_lang$core$Json_Decode$field, 'data', _user$project$App$userDecoder);
+var _user$project$App$getUser = A2(_elm_lang$http$Http$get, _user$project$App$getUserUrl, _user$project$App$userDataDecoder);
+var _user$project$App$UserData = function (a) {
+	return {data: a};
+};
+var _user$project$App$Signup = {ctor: 'Signup'};
 var _user$project$App$view = function (user) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9064,28 +9088,118 @@ var _user$project$App$view = function (user) {
 						_0: _elm_lang$html$Html$text(user.email),
 						_1: {ctor: '[]'}
 					}),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h2,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Signup Form'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$label,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$for('name-field'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Name:'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$input,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$id('name-field'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('text'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$placeholder('Name'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(user.name),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$label,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$for('email-field'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Email:'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$id('email-field'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$type_('text'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$placeholder('Email'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$value(user.email),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$App$Signup),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('signup'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
-};
-var _user$project$App$update = F2(
-	function (msg, user) {
-		var _p0 = msg;
-		if (_p0._0.ctor === 'Ok') {
-			return {ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none};
-		} else {
-			return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
-		}
-	});
-var _user$project$App$User = F3(
-	function (a, b, c) {
-		return {name: a, email: b, id: c};
-	});
-var _user$project$App$userDecoder = A4(_elm_lang$core$Json_Decode$map3, _user$project$App$User, _user$project$App$nameDecoder, _user$project$App$emailDecoder, _user$project$App$idDecoder);
-var _user$project$App$userDataDecoder = A2(_elm_lang$core$Json_Decode$field, 'data', _user$project$App$userDecoder);
-var _user$project$App$getUser = A2(_elm_lang$http$Http$get, _user$project$App$getUserUrl, _user$project$App$userDataDecoder);
-var _user$project$App$UserData = function (a) {
-	return {data: a};
 };
 var _user$project$App$LoadUserData = function (a) {
 	return {ctor: 'LoadUserData', _0: a};
