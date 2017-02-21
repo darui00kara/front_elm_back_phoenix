@@ -9043,14 +9043,31 @@ var _user$project$App$subscriptions = function (user) {
 var _user$project$App$update = F2(
 	function (msg, user) {
 		var _p0 = msg;
-		if (_p0.ctor === 'LoadUserData') {
-			if (_p0._0.ctor === 'Ok') {
-				return {ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none};
-			} else {
+		switch (_p0.ctor) {
+			case 'LoadUserData':
+				if (_p0._0.ctor === 'Ok') {
+					return {ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'Signup':
 				return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
-			}
-		} else {
-			return {ctor: '_Tuple2', _0: user, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Name':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						user,
+						{name: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						user,
+						{email: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 var _user$project$App$User = F3(
@@ -9064,6 +9081,12 @@ var _user$project$App$UserData = function (a) {
 	return {data: a};
 };
 var _user$project$App$Signup = {ctor: 'Signup'};
+var _user$project$App$Email = function (a) {
+	return {ctor: 'Email', _0: a};
+};
+var _user$project$App$Name = function (a) {
+	return {ctor: 'Name', _0: a};
+};
 var _user$project$App$view = function (user) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9132,7 +9155,7 @@ var _user$project$App$view = function (user) {
 													_0: _elm_lang$html$Html_Attributes$placeholder('Name'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$value(user.name),
+														_0: _elm_lang$html$Html_Events$onInput(_user$project$App$Name),
 														_1: {ctor: '[]'}
 													}
 												}
@@ -9168,7 +9191,7 @@ var _user$project$App$view = function (user) {
 															_0: _elm_lang$html$Html_Attributes$placeholder('Email'),
 															_1: {
 																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$value(user.email),
+																_0: _elm_lang$html$Html_Events$onInput(_user$project$App$Email),
 																_1: {ctor: '[]'}
 															}
 														}
