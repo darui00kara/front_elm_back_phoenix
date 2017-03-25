@@ -77,3 +77,5 @@ Request { method = "GET", headers = [], url = "http://localhost:4000/api/users/1
 Ok { name = "hogehoge", email = "hoge@test.com", id = 1 }
     : Result.Result String App.User
 ```
+
+sample
