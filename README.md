@@ -78,4 +78,43 @@ Ok { name = "hogehoge", email = "hoge@test.com", id = 1 }
     : Result.Result String App.User
 ```
 
-sample
+JSONのリストデータをデコード
+
+```elm
+# 利用する関数群
+idDecoder =
+  (Decode.field "id" Decode.int)
+
+nameDecoder =
+  (Decode.field "name" Decode.string)
+
+emailDecoder =
+  (Decode.field "email" Decode.string)
+
+userDecoder =
+  Decode.map3 User.Schema idDecoder nameDecoder emailDecoder
+
+usersDecoder =
+  Decode.list userDecoder
+
+usersDataDecoder =
+  (Decode.field "data" usersDecoder)
+
+# Userスキーマのtype alias
+type alias Schema =
+  { id : Int
+  , name : String
+  , email : String
+  }
+
+# replの内容
+> import Json.Decode exposing (..)
+
+> jsonList = "{\"data\":[{\"name\":\"hoge\",\"id\":1,\"email\":\"hoge@test.com\"},{\"name\":\"foo\",\"id\":2,\"email\":\"bar@test.com\"}]}"
+"{\"data\":[{\"name\":\"hoge\",\"id\":1,\"email\":\"hoge@test.com\"},{\"name\":\"foo\",\"id\":2,\"email\":\"bar@test.com\"}]}"
+    : String
+> decodeString usersDataDecoder jsonList
+Ok ([{ id = 1, name = "hoge", email = "hoge@test.com" },{ id = 2, name = "foo", email = "bar@test.com" }])
+    : Result.Result String (List Model.User.Schema)
+> 
+```
